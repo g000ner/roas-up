@@ -14,10 +14,6 @@ class QueryBuilder {
     private $query;
     private $queryParams;
 
-    public function getQueryParams() {
-        print_r($this->queryParams);
-    }
-
     private $dataSourceName;
 
     function __construct($config) {
