@@ -73,9 +73,6 @@ class QueryBuilder {
 
     public function values($values) {
         $queryParamIndex = count($this->queryParams);
-        // $values = array_map(function($item) {
-        //     return "'$item'";
-        // }, $values);
         $settableArguments = [];
         foreach($values as $value) {
             $queryParamString = ":query_param_" . $queryParamIndex++;
