@@ -12,7 +12,9 @@ class QueryBuilder {
 
     private $db;
     private $query;
+
     private $queryParams;
+    private $queryParamsPrefix = ":query_param_";
 
     private $dataSourceName;
 
@@ -36,8 +38,8 @@ class QueryBuilder {
         $this->query = "INSERT INTO " . $table;
         if (count($columns) > 0) {
             $columns = array_map(function($item) {
-            return "`$item`";
-        }, $columns);
+                return "`$item`";
+            }, $columns);
             $this->query = $this->query . " (" .  implode(",", $columns) . ")";
         }
         return $this;
@@ -58,7 +60,7 @@ class QueryBuilder {
 
         $settableArguments;
         foreach($arguments as $key=>$value) {
-            $queryParamString = ":query_param_" . $queryParamIndex++;
+            $queryParamString = $this->queryParamsPrefix . $queryParamIndex++;
             $this->queryParams[$queryParamString] = $value;
             $settableArguments[] = "$key=$queryParamString";
         }
@@ -71,7 +73,7 @@ class QueryBuilder {
         $queryParamIndex = count($this->queryParams);
         $settableArguments = [];
         foreach($values as $value) {
-            $queryParamString = ":query_param_" . $queryParamIndex++;
+            $queryParamString = $this->queryParamsPrefix . $queryParamIndex++;
             $this->queryParams[$queryParamString] = $value;
             $settableArguments[] = "$queryParamString";
         }
